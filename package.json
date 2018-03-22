@@ -1,0 +1,22 @@
+{
+  "name": "maps",
+  "version": "1.0.0",
+  "description": "Iformar localização personalizada no mapa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Maps",
+    "geolocalização",
+    "points"
+  ],
+  "author": "João Paulo Queiroz for Felipe Franklin",
+  "license": "ISC",
+  "dependencies": {
+    "consign": "^0.1.6",
+    "ejs": "^2.5.7",
+    "express": "^4.16.3",
+    "restify-client": "^1.0.5"
+  }
+}

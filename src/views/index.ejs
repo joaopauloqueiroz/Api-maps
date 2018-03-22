@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Maps</title>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<style type="text/css">
+	html,
+	body{
+		font-family: Arial, sans-serif;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	.container {
+		height: 100%;
+		position: relative;
+	}
+	input {
+		font-size: 12px;
+		border-radius: 2px;
+	}
+	h1 {
+		color: #525454;
+		font-size: 22px;
+		margin: 0 0 10px 0;
+		margin-left: 5%;
+	}
+	#hide-listings,
+	#show-listings {
+		width: 48%;
+	}
+	#map {
+		bottom:0px;
+		height: 100%;
+		left: 362px;
+		position: absolute;
+		right: 0px;
+	}
+	.options-box {
+		background: #fff;
+		border: 1px solid #999;
+		border-radius: 3px;
+		height: 100%;
+		line-height: 35px;
+		padding: 10px 10px 30px 10px;
+		text-align: left;
+		width: 340px;
+	}
+	.container div div{
+		margin-left: 5%;
+	}
+</style>
+</head>
+<body>
+
+	<div class="container">
+		<div class="option-box">
+			<h1> Filtros </h1>
+			<div>
+				<input type="button" name="" id="todas" value="Refresh">
+				<input type="button" name="" id="pireli" value="Pireli">
+				<input type="button" name="" id="bridge" value="Brigestone">
+				<input type="button" name="" id="outra" value="Outra">
+			</div>
+		</div>
+	</div>
+
+	<div id="map"></div>
+	
+	<script type="text/javascript">
+
+		function pireli(){
+			var response;
+			$.get('/pireli', function(res) {
+			response = res;
+			console.log(response);
+			initMap(response);
+		});
+
+		}
+
+
+		
+		function bridge(){
+			var response;
+			$.get('/bridge', function(res) {
+			response = res;
+			console.log(response);
+			initMap(response);
+		});
+		}
+
+		function outra(){
+			var response = [];
+			var respons = [];
+			$.get('/outra', function(res) {
+			response = res;
+			initMap(response);
+		});
+			
+		}
+		
+	function todas(){
+		$.get('/data', function(res) {
+			dados = res;
+			initMap(dados);
+		});
+	}
+
+		$.get('/data', function(res) {
+			dados = res;
+			initMap(dados);
+		});
+
+
+
+
+		var map;
+		var markers = [];
+
+		//função para carregar o mapa
+		function initMap(localizacao){
+
+			map = new google.maps.Map(document.getElementById('map'),{
+				center: {lat: -23.944841, lng: -46.330376},
+				zoom: 13,
+				mapTypeControl: false
+			});
+        //caso o lugar esteja fora do zoom do mapa e criado uma cauculo para que caiba tudo no viewport
+        //da regiao sudoeste e nordeste do viewport
+        var bounds = new google.maps.LatLngBounds();
+        
+        for(var i =0; i < localizacao.length; i++){
+        	var posicao = localizacao[i].location;
+        	var titulo  = localizacao[i].title;
+
+        	var marker = new google.maps.Marker({
+        		map: map,
+        		position: posicao,
+        		title: titulo,
+        		animation: google.maps.Animation.DROP,
+        		icon: localizacao[i].imagem,
+        		id: i
+        	});
+        	//mater o array ordenado
+        	markers.push(marker);
+        	bounds.extend(marker.position);
+
+		var lugares = new google.maps.InfoWindow();
+        	//mostrar a janela de infos
+        	//espera o click e chama a função lugares criada la em cima
+        	marker.addListener('click', function(){
+        		adicionarIfos(this, lugares);
+        	});
+
+        	function adicionarIfos(marker, infoWindow){
+        		if (window.marker != marker) {
+        			infoWindow.marker = marker;
+        			infoWindow.setContent('<div>'+marker.title + '</div>');
+        			infoWindow.open(map, marker);
+        			infoWindow.addListener('closeclick', function(){
+        				infoWindow.setMarker(null);
+        			});
+        		}
+
+        	}
+        	/*marker.addListener('mouseover', function(){
+        		this.setIcon(icone2);
+        	});
+
+
+        	marker.addListener('mouseout', function(){
+        		this.setIcon(icone);
+        	});*/
+        }
+
+        map.fitBounds(bounds);
+
+        //evento de click para os botoes
+        document.getElementById('pireli').addEventListener('click', pireli);
+        document.getElementById('bridge').addEventListener('click', bridge);
+        document.getElementById('outra').addEventListener('click', outra);
+        document.getElementById('todas').addEventListener('click', todas);
+
+    }
+
+
+    function mostraLista(){
+    	var bounds = new google.maps.LatLngBounds();
+    	for (var i = 0; i < markers.length; i++) {
+    		markers[i].setMap(map);
+    		bounds.extend(markers[i].position);
+    	}
+    	map.fitBounds(bounds);
+    }
+
+
+    function escondeLista(){
+			//map.fitBounds(bounds);
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			}
+		}
+
+
+	</script>
+
+	<!-- chama o script com a minha key e a função initMap -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCecY8dgAzVifZzlg7YUvSvl3M-QtnY7cc&v=3&sensor=false&callback=initMap">
+	</script>
+</body>
+</html>

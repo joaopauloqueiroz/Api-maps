@@ -1,0 +1,10 @@
+		[
+          {"id": 1, "title": "Ps do vidro", "location": {"lat": -23.5126043, "lng":  -46.6253818}, "imagem": "img/pir.ico"},
+          {"id": 1, "title": "Chelsea Loft", "location": {"lat": -23.607303, "lng": -46.6379336}, "imagem": "img/pir.ico"},
+          {"id": 3, "title": "Chelsea Loft", "location": {"lat": -23.5927791, "lng": -46.6211797}, "imagem": "img/outro.ico"},
+          {"id": 3, "title": "Chelsea Loft", "location": {"lat": -23.6223045, "lng": -46.8071689}, "imagem": "img/outro.ico"},
+          {"id": 2, "title": "Chelsea Loft", "location": {"lat": -23.6287343, "lng": -46.69978937852}, "imagem": "img/bridg.ico"},
+          {"id": 2, "title": "Union Square Open Floor Plan", "location": {"lat": -23.5604128, "lng": -46.6810786}, "imagem": "img/bridg.ico"},
+          {"id": 2, "title": "Union Square Open Floor Plan", "location": {"lat": -23.4543148, "lng": -46.5336521}, "imagem": "img/bridg.ico"},
+          {"id": 2, "title": "Itapecerica da Serra, São Paulo, Brasilien", "location": {"lat": -23.7166271, "lng": -46.8576421}, "imagem": "img/bridg.ico"}
+		]
